@@ -52,15 +52,15 @@ def hai(update, context):
 
 def download(update, context):
     fileURL=update.message.text
-	update.message.reply_text('Downloading image...')
-	f = urllib.urlopen(fileURL)
-	htmlSource = f.read()
-	soup = BeautifulSoup(htmlSource,'html.parser')
-	metaTag = soup.find_all('meta', {'property':'og:image'})
-	imgURL = metaTag[0]['content']
-	fileName = datetime.datetime.now().strftime("%Y-%m-%d_%H:%M:%S") + '.jpg'
-	urllib.urlretrieve(imgURL, fileName)
-	update.message.reply_text( 'Done. Image saved to disk as ' + fileName)
+    update.message.reply_text('Downloading image...')
+    f = urllib.urlopen(fileURL)
+    htmlSource = f.read()
+    soup = BeautifulSoup(htmlSource,'html.parser')
+    metaTag = soup.find_all('meta', {'property':'og:image'})
+    imgURL = metaTag[0]['content']
+    fileName = datetime.datetime.now().strftime("%Y-%m-%d_%H:%M:%S") + '.jpg'
+    urllib.urlretrieve(imgURL, fileName)
+    update.message.reply_text( 'Done. Image saved to disk as ' + fileName)
     context.bot.sendDocument(chat_id=update.effective_chat.id, document=open(filename, 'rb'), filename=filename)
     context.bot.send_photo(chat_id=update.effective_chat.id, photo=open(filename,'rb'))
     os.remove(filename)
@@ -87,16 +87,16 @@ def main():
 
     dp.add_handler(MessageHandler(Filters.text, download))
 
-# log all errors
-dp.add_error_handler(error)
+    # log all errors
+    dp.add_error_handler(error)
 
-# Start the Bot
-updater.start_polling()
+    # Start the Bot
+    updater.start_polling()
 
-# Run the bot until you press Ctrl-C or the process receives SIGINT,
-# SIGTERM or SIGABRT. This should be used most of the time, since
-# start_polling() is non-blocking and will stop the bot gracefully.
-updater.idle()
+    # Run the bot until you press Ctrl-C or the process receives SIGINT,
+    # SIGTERM or SIGABRT. This should be used most of the time, since
+    # start_polling() is non-blocking and will stop the bot gracefully.
+    updater.idle()
 
 if __name__ == '__main__':
    main()
