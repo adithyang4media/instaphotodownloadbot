@@ -4,7 +4,7 @@ import os
 import sys
 import requests
 from sys import argv
-import urllib
+
 import urllib.request
 from bs4 import BeautifulSoup
 import datetime
