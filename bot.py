@@ -57,12 +57,19 @@ def download(update, context):
     fileURL=update.message.text
     update.message.reply_text('Downloading image...')
     f = urllib.request.urlopen(fileURL)
+    update.message.reply_text('Downloading image...2')
     htmlSource = f.read()
+    update.message.reply_text('Downloading image...3')
     soup = BeautifulSoup(htmlSource,'html.parser')
+    update.message.reply_text('Downloading image...4')
     metaTag = soup.find_all('meta', {'property':'og:image'})
+    update.message.reply_text('Downloading image...5')
     imgURL = metaTag[0]['content']
+    update.message.reply_text('Downloading image...6')
     fileName = datetime.datetime.now().strftime("%Y-%m-%d_%H:%M:%S") + '.jpg'
+    update.message.reply_text('Downloading image...7')
     urllib.request.urlretrieve(imgURL, fileName)
+    update.message.reply_text('Downloading image...8')
     update.message.reply_text( 'Done. Image saved to disk as ' + fileName)
     context.bot.sendDocument(chat_id=update.effective_chat.id, document=open(fileName, 'rb'), filename=fileName)
     context.bot.send_photo(chat_id=update.effective_chat.id, photo=open(fileName,'rb'))
