@@ -5,8 +5,10 @@ import sys
 import requests
 from sys import argv
 import urllib
+import urllib.request
 from bs4 import BeautifulSoup
 import datetime
+
 
 
 
@@ -35,7 +37,8 @@ def start(update, context):
     update.message.reply_text('I Am Online')
     update.message.reply_text('This Bot Was Made By @g4_media')
     update.message.reply_text('Please Consider Subscribing our Youtube Channel https://www.youtube.com/channel/UCad4U0t57KqjvHxqqdmZW_w')
-
+    update.message.reply_text('This Bot Helps You to download instagram photos')
+    
 
 def help(update, context):
     """Send a message when the command /help is issued."""
@@ -53,16 +56,16 @@ def hai(update, context):
 def download(update, context):
     fileURL=update.message.text
     update.message.reply_text('Downloading image...')
-    f = urllib.urlopen(fileURL)
+    f = urllib.request.urlopen(fileURL)
     htmlSource = f.read()
     soup = BeautifulSoup(htmlSource,'html.parser')
     metaTag = soup.find_all('meta', {'property':'og:image'})
     imgURL = metaTag[0]['content']
     fileName = datetime.datetime.now().strftime("%Y-%m-%d_%H:%M:%S") + '.jpg'
-    urllib.urlretrieve(imgURL, fileName)
+    urllib.request.urlretrieve(imgURL, fileName)
     update.message.reply_text( 'Done. Image saved to disk as ' + fileName)
-    context.bot.sendDocument(chat_id=update.effective_chat.id, document=open(filename, 'rb'), filename=filename)
-    context.bot.send_photo(chat_id=update.effective_chat.id, photo=open(filename,'rb'))
+    context.bot.sendDocument(chat_id=update.effective_chat.id, document=open(fileName, 'rb'), filename=fileName)
+    context.bot.send_photo(chat_id=update.effective_chat.id, photo=open(fileName,'rb'))
     os.remove(filename)
 
 def error(update, context):
@@ -75,7 +78,7 @@ def main():
     # Create the Updater and pass it your bot's token.
     # Make sure to set use_context=True to use the new context based callbacks
     # Post version 12 this will no longer be necessary
-    updater = Updater(os.environ['bottoken'], use_context=True)
+    updater = Updater("1433983998:AAHoiInziufUT9MOF51LFzRKnJR1xZcJquI", use_context=True)
 
     # Get the dispatcher to register handlers
     dp = updater.dispatcher
