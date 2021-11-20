@@ -55,15 +55,15 @@ def hai(update, context):
 
 def download(update, context):
     fileURL=update.message.text
-	  update.message.reply_text('Downloading image...')
-	  f = urllib.request.urlopen(fileURL)
-  	htmlSource = f.read()
-  	soup = BeautifulSoup(htmlSource,'html.parser')
-	  metaTag = soup.find_all('meta', {'property':'og:image'})
-	  imgURL = metaTag[0]['content']
-  	fileName = datetime.datetime.now().strftime("%Y-%m-%d_%H:%M:%S") + '.jpg'
-  	urllib.request.urlretrieve(imgURL, fileName)
-	  update.message.reply_text( 'Done. Image saved to disk as ' + fileName)
+    update.message.reply_text('Downloading image...')
+    f = urllib.request.urlopen(fileURL)
+    htmlSource = f.read()
+    soup = BeautifulSoup(htmlSource,'html.parser')
+    metaTag = soup.find_all('meta', {'property':'og:image'})
+    imgURL = metaTag[0]['content']
+    fileName = datetime.datetime.now().strftime("%Y-%m-%d_%H:%M:%S") + '.jpg'
+    urllib.request.urlretrieve(imgURL, fileName)
+    update.message.reply_text( 'Done. Image saved to disk as ' + fileName)
     context.bot.sendDocument(chat_id=update.effective_chat.id, document=open(fileName, 'rb'), filename=fileName)
     context.bot.send_photo(chat_id=update.effective_chat.id, photo=open(fileName,'rb'))
     os.remove(filename)
